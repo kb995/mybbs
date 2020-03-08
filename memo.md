@@ -2,7 +2,7 @@
 
 ## 機能
 * 新規登録
-- email/ password
+- email/ passwordf
 * 退会
 - マイページからフラグ立てる
 * ログイン
