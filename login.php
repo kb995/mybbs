@@ -1,15 +1,12 @@
 <?php
-ini_set('display_errors', 1);
 
 require('./functions.php');
 require('./validation.php');
-require('./dbConnect.php');
-
-
 
 if(!empty($_POST)) {
     $email = $_POST['email'];
     $password = $_POST['password'];
+    // TODO: ログイン時間延長
     // $pass_save = 
     validationRequired($email, 'email');
     validationRequired($password, 'password');
@@ -18,12 +15,11 @@ if(!empty($_POST)) {
         try {
             // emailが一致するデータのpasswordを取得
             $dbh = dbConnect();
-            $sql = 'SELECT id,password FROM users WHERE email = :email';
-            $data = array(':email' => $email);
+            $sql = 'SELECT id, password FROM users WHERE email = :email AND delete_flg = 0';
             $stmt = $dbh->prepare($sql);
-            $stmt->execute($data);
+            $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+            $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            echo "<pre>"; var_dump($result); echo"</pre>";
             if($result) {
                 // 取得したデータと入力したパスワードと一致確認
                 if($result['password'] == $password) {
@@ -31,7 +27,7 @@ if(!empty($_POST)) {
                     $_SESSION['user_id'] = $result['id'];
                     // ログイン時間を現在に更新
                     $_SESSION['login_time'] = time();
-                    // ログイン有効期限を設定
+                    // ログイン有効期限を設定(デフォルト１時間)
                     $_SESSION['login_limit'] = $sessionLimit;
                     // ログインフラグ
                     $_SESSION['login_flg'] = true;
@@ -40,8 +36,10 @@ if(!empty($_POST)) {
                 } else {
                     $err_msg['etc'] = 'メールアドレスかパスワードが間違っています';
                 }
+            }else{
+                $err_msg['etc'] = 'ログインできませんでした';
             }
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
             echo '例外エラー発生 : ' . $e->getMessage();
             $err_msg['etc'] = 'しばらくしてから再度試してください';
         }

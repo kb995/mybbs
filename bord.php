@@ -1,22 +1,25 @@
 <?php
-ini_set('display_errors', 1);
 
 require('./functions.php');
 require('./validation.php');
-require('./dbConnect.php');
-require('./loginCheck.php');
+require('./loginAuth.php');
 
 
 // DBからユーザーデータを取得
 $db_user = getDbUser($_SESSION['user_id']);
 $default_img = 'default.jpeg';
-$messages = getUsersMessage();
-// echo "<pre>"; var_dump($messages); echo"</pre>";
+// ページング
+if(isset($_REQUEST['page']) && is_numeric($_REQUEST['page'])) {
+    $page = $_REQUEST['page'];
+} else {
+    $page = 1;
+}
+$start = 5 * ($page - 1);
+$messages = getUsersMessage($start, 5);
+
 // POSTからのメッセージ投稿保存処理
 if(!empty($_POST)) {
     $message = $_POST['message'];
-    // 返信するフラグあればメッセージidを入れる
-    $reply_id = '1';
 
     // バリデーションチェック
     validationRequired($message, 'message');
@@ -25,15 +28,18 @@ if(!empty($_POST)) {
     if(empty($err_msg)) {
         try {
             $dbh = dbConnect();
-            $sql = 'INSERT INTO message (message, user_id, reply_id, modify_time, create_date) VALUE (:message, :u_id, :r_id, :m_time, :c_date)';
-            $data = array(':message' => $message, ':u_id' => $_SESSION['user_id'], ':r_id' => $reply_id, ':m_time' => date('Y-m-d H:i:s'), ':c_date' => date('Y-m-d H:i:s'));
+            $sql = 'INSERT INTO message (message, user_id, modify_time, create_date) VALUE (:message, :u_id, :m_time, :c_date)';
             $stmt = $dbh->prepare($sql);
-            $result = $stmt->execute($data);
-            header('Location: bord.php');
-        } catch (Exception $e) {
+            $stmt->bindValue(':message', $message, PDO::PARAM_STR);
+            $stmt->bindValue(':u_id', $_SESSION['user_id'], PDO::PARAM_STR);
+            $stmt->bindValue(':m_time', date('Y-m-d H:i:s'));
+            $stmt->bindValue(':c_date', date('Y-m-d H:i:s'));
+            $result = $stmt->execute();
+        } catch (PDOException $e) {
             echo '例外エラー発生 : ' . $e->getMessage();
             $err_msg['etc'] = 'しばらくしてから再度試してください';
         }
+        header('Location: bord.php');
     }
 }
 
@@ -56,7 +62,8 @@ if(!empty($_POST)) {
         </div>
         <div class="form-group mb-5">
             <label class="control-label h4 pb-2" for="">ひとりごとをつぶやく</label>
-            <textarea class="form-control" name="message" rows="8" cols="40"></textarea>
+            <textarea class="form-control" name="message" rows="8" cols="40">
+            </textarea>
             <p class="err_msg">
                 <?php if(!empty($err_msg['message'])) echo $err_msg['message'];  ?>
             </p>
@@ -73,19 +80,30 @@ if(!empty($_POST)) {
                 <?php if(!empty($message['thumbnail'])): ?>
                     <img class="block" style="width: 100%; height:auto;" src="<?php echo 'img/' . $message['thumbnail']; ?>" alt="あなたのプロフィール画像">
                 <?php else: ?>
-                    <img style="width: 100px;height:100px;" src="<?php echo 'img/' . $default_img; ?>" alt="デフォルト画像">
+                    <img style="width:100px;height:100px;" src="<?php echo 'img/' . $default_img; ?>" alt="デフォルト画像">
                 <?php endif; ?>
             </div>
-            <span><?php echo $message['user_name']; ?></span>
+            <p class="p-2"><?php echo $message['user_name']; ?></p>
             <span class="pr-3"><?php echo $message['create_date']; ?></span>
-            <!-- TODO 自分のアカウントメッセージだけに表示 -->
-            <?php //if($_SESSION['user_id'] == $messages['user_id']): ?>
-            <a href="delete.php?message_id=<?php echo $message['id']; ?>">削除</a>
-            <a href="editMessage.php?message_id=<?php echo $message['id']; ?>" class="pr-3">編集</a>
-            <?php //endif; ?>
+            <?php if($_SESSION['user_id'] == $message['user_id']): ?>
+                <a href="delete.php?message_id=<?php echo $message['id']; ?>">削除</a>
+                <a href="editMessage.php?message_id=<?php echo $message['id']; ?>" class="pr-3">編集</a>
+            <?php endif; ?>
             <p class="mb-5 mt-3 p-3" style="border-radius: 8px; background-color: #f1f1f1; color: #555;"><?php echo $message['message']; ?></p>
-            <?php // echo "<pre>"; var_dump($message); echo"</pre>"; ?>
         <?php endforeach; ?>
+        <!-- ページング -->
+        <?php if($page >= 2): ?>
+        <a class="pl-5" href="bord.php?page=<?php echo $page - 1; ?>">&lt;<?php echo $page - 1; ?>ページ目</a>
+        <?php endif; ?>
+        <?php
+        $dbh = dbConnect();
+        $stmt = $dbh->query('SELECT COUNT(*) FROM message WHERE delete_flg = 0');
+        $page_count = $stmt->fetch(PDO::FETCH_ASSOC);
+        $max_page = ceil($page_count['COUNT(*)'] / 5);
+        if($page < $max_page):
+        ?>
+        <a class="pl-5" href="bord.php?page=<?php echo $page + 1; ?>"><?php echo $page + 1; ?>ページ目&gt;</a>
+        <?php endif; ?>
     </section>
 </main>
 

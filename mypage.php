@@ -1,10 +1,7 @@
 <?php
-ini_set('display_errors', 1);
 
 require('./functions.php');
-require('./validation.php');
-require('./dbConnect.php');
-require('./loginCheck.php');
+require('./loginAuth.php');
 
 $db_user = getDbUser($_SESSION['user_id']);
 $default_img = 'default.jpeg';
@@ -31,7 +28,7 @@ $default_img = 'default.jpeg';
         <div class="row">
             <a class="btn btn-primary block m-3" href="profEdit.php">プロフィール編集</a>
             <a class="btn btn-primary block m-3" href="bord.php">みんなのひとりごと板</a>
-            <a class="btn btn-primary block m-3" href="withdraw.php">退会する</a>
+            <a class="block ml-auto p-4" href="withdraw.php">退会する&raquo;</a>
         </div>
     </section>
 </main>

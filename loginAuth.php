@@ -1,7 +1,10 @@
 <?php
 
 if($_SESSION['login_flg']) {
-
+    // if(basename($_SERVER['PHP_SELF']) === 'signup.php') {
+    //     $_SESSION['login_time'] = time();
+    //     header('Location: mypage.php');
+    // }
     // ログイン済みユーザー
     if( ($_SESSION['login_time'] + $_SESSION['login_limit']) < time() ) {
         // ログイン有効期限オーバー
@@ -15,9 +18,7 @@ if($_SESSION['login_flg']) {
         if(basename($_SERVER['PHP_SELF']) === 'login.php') {
             header('Location: mypage.php');
         }
-
     }
-
 } else {
     // 未ログインユーザー
     header('Location: login.php');

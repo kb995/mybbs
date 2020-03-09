@@ -1,17 +1,10 @@
 <?php
-ini_set('display_errors', 1);
 
 require('./functions.php');
 require('./validation.php');
-require('./dbConnect.php');
-require('./loginCheck.php');
+require('./loginAuth.php');
 
 $db_user = getDbUser($_SESSION['user_id']);
-
-if(!isset($_SESSION['profedit'])) {
-    header('Location: login.php');
-    exit;
-}
 
 if(!empty($_SESSION['profedit'])) {
     $name = $_SESSION['profedit']['name'];
@@ -21,8 +14,6 @@ if(!empty($_SESSION['profedit'])) {
     $default_img = 'default.jpeg';
 
     if(!empty($_POST)) {
-        // bindValueに変更
-        // PDOException
         try {
             $dbh = dbConnect();
             $sql = 'UPDATE users SET user_name = :user_name, email = :email, profile_text = :profile_text, thumbnail = :thumbnail, modify_time = :modify_time  WHERE id = :id';
@@ -30,10 +21,9 @@ if(!empty($_SESSION['profedit'])) {
             $stmt = $dbh->prepare($sql);
             $result = $stmt->execute($data);
             if($result) {
-                // todo: JSでヘッダーにアラートつくる
                 header('Location: mypage.php');
             }
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
             echo '例外エラー発生 : ' . $e->getMessage();
             $err_msg['etc'] = 'しばらくしてから再度試してください';
         }

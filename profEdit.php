@@ -1,10 +1,8 @@
 <?php
-ini_set('display_errors', 1);
 
 require('./functions.php');
 require('./validation.php');
-require('./dbConnect.php');
-require('./loginCheck.php');
+require('./loginAuth.php');
 
 
 // DBからユーザーデータを取得
@@ -12,21 +10,24 @@ $db_user = getDbUser($_SESSION['user_id']);
 $default_img = 'default.jpeg';
 
 if(!empty($_POST)) {
-
-    // バリデーションチェック
+    // バリデーション
+    validationRequired($_POST['name'], 'name');
+    validationMax($_POST['name'], 'name', 20);
+    emailCheck($_POST['email'], 'email');
+    validationRequired($_POST['profile'], 'profile');
+    validationMax($_POST['profile'], 'profile');
 
     if(empty($err_msg)) {
         // 入力内容をセッションに入れて保存
         $_SESSION['profedit'] = $_POST;
         $_SESSION['profedit']['prof_img'] = $db_user['thumbnail'];
-        // echo "<pre>"; var_dump($db_user); echo"</pre>";
     
         // FILESにアップロードある時、画像の名前作成 & 一時保存ファイルから画像専用ファイルに移動
         // セッションに入れて保存
         if(!empty($_FILES['thumbnail']['name'])) {
            $img = date('YmdHis') . $_FILES['thumbnail']['name'];
-           validationImgType($img, 'image');
            // 画像のバリデーション
+           validationImgType($img, 'image');
            if(empty($err_msg)) {
                $_SESSION['profedit']['prof_img'] = $img;
                move_uploaded_file($_FILES['thumbnail']['tmp_name'], 'img/' . $img);
@@ -61,7 +62,7 @@ if(!empty($_POST)) {
             <label class="control-label" for="">プロフィール文</label>
             <textarea class="form-control" name="profile" rows="4" cols="40"><?php echo $db_user['profile_text']; ?></textarea>
             <p class="err_msg">
-                <?php if(!empty($err_msg['email'])) echo $err_msg['email'];  ?>
+                <?php if(!empty($err_msg['profile'])) echo $err_msg['profile'];  ?>
             </p>
         </div>
         <div class="form-group mb-5">

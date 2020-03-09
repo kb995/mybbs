@@ -1,9 +1,7 @@
 <?php
-ini_set('display_errors', 1);
 
 require('./functions.php');
 require('./validation.php');
-require('./dbConnect.php');
 
 
 if(!empty($_POST)) {
@@ -16,7 +14,6 @@ if(!empty($_POST)) {
     validationRequired($password_re, 'password_re');
 
     if(empty($err_msg)) {
-        // バリデーションチェック
         emailCheck($email, 'email');
         passCheck($password, 'password');
         passMatch($password, $password_re, 'password_re');
@@ -26,14 +23,17 @@ if(!empty($_POST)) {
             try {
                 $dbh = dbConnect();
                 $sql = 'INSERT INTO users (email, password, modify_time, create_date) VALUE (:email, :password, :modify_time, :create_date)';
-                $data = array(':email' => $email, ':password' => $password, ':modify_time' => date('Y-m-d H:i:s'), ':create_date' => date('Y-m-d H:i:s'));
                 $stmt = $dbh->prepare($sql);
-                $result = $stmt->execute($data);
+                $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+                $stmt->bindValue(':password', $password, PDO::PARAM_STR);
+                $stmt->bindValue(':modify_time', date('Y-m-d H:i:s'));
+                $stmt->bindValue(':create_date', date('Y-m-d H:i:s'));
+                $result = $stmt->execute();
                 if($result) {
-                    // TODO ログインページは挟まない
+                    $_SESSION['login_flg'] = true;
                     header('Location: mypage.php');
                 }
-            } catch (Exception $e) {
+            } catch (PDOException $e) {
                 echo '例外エラー発生 : ' . $e->getMessage();
                 $err_msg['etc'] = 'しばらくしてから再度試してください';
             }
@@ -44,7 +44,6 @@ if(!empty($_POST)) {
 
 <?php require('head.php'); ?>
 <?php require('header.php'); ?>
-    <!-- main -->
     <main class="container mt-5">
         <h1 class="page-title text-center my-5 col-8 mx-auto pb-3">新規登録</h1>
         <form class="bg-light col-7 mx-auto p-5" action="" method="post">

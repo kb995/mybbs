@@ -2,17 +2,6 @@
 $err_msg = array();
 
 // 空チェック
-// 半角チェック
-// email重複チェック
-// 最大文字数チェック
-// 最小文字数チェック
-
-// emailチェック
-// passwordチェック
-// 名前チェック
-
-
-// 空チェック
 function validationRequired($str, $key) {
     if($str === '') {
         global $err_msg;
@@ -20,7 +9,6 @@ function validationRequired($str, $key) {
     }
 }
 // 半角チェック
-// TODO 内容確認
 function validationHalfsize($str, $key) {
     if(!preg_match("/^[a-zA-Z0-9]+$/", $str)){
         global $err_msg;
@@ -70,15 +58,14 @@ function emailDuplication($email) {
     try {
         $dbh = dbConnect();
         $sql = 'SELECT count(*) FROM users WHERE email = :email';
-        $data = array(':email' => $email);
         $stmt = $dbh->prepare($sql);
-        $stmt->execute($data);
+        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+        $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        echo "<pre>"; var_dump($result['count(*)']); echo"</pre>";
         if($result['count(*)'] != 0) {
             $err_msg['email'] = 'そのアドレスは既に登録されています';
         }
-    } catch (Exception $e) {
+    } catch (PDOException $e) {
         echo '例外エラー発生 : ' . $e->getMessage();
         $err_msg['etc'] = 'しばらくしてから再度試してください';
     }

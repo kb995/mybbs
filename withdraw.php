@@ -1,9 +1,7 @@
 <?php
-ini_set('display_errors', 1);
 
 require('./functions.php');
-require('./dbConnect.php');
-require('./loginCheck.php');
+require('./loginAuth.php');
 
 if(!empty($_POST)) {
     try {

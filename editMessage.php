@@ -1,10 +1,8 @@
 <?php
-ini_set('display_errors', 1);
 
 require('./functions.php');
 require('./validation.php');
-require('./dbConnect.php');
-require('./loginCheck.php');
+require('./loginAuth.php');
 
 $db_user = getDbUser($_SESSION['user_id']);
 $default_img = 'default.jpeg';
@@ -15,17 +13,11 @@ $db_message = getOneMessage($_GET['message_id']);
 
 // メッセージ編集処理
 if(!empty($_POST)) {
-    // ポスト内容
     $edit = $_POST['edit'];
-    // 返信するフラグあればメッセージidを入れる
-    $reply_id = '1';
-    // バリデーションチェック
+
+    // バリデーション
     validationRequired($edit, 'edit');
     validationMax($edit, 'edit', 100);
-
-    // ====================================================
-    // 編集処理
-    // ====================================================
 
     if(empty($err_msg)) {
         try {

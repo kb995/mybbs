@@ -1,26 +1,17 @@
 <?php
-ini_set('display_errors', 1);
 
 require('./functions.php');
 require('./validation.php');
-require('./dbConnect.php');
-require('./loginCheck.php');
+require('./loginAuth.php');
 
 // $db_user = getDbUser($_SESSION['user_id']);
 
 // データベースのメッセージデータ
 $db_message = getOneMessage($_GET['message_id']);
 
-// echo "<pre>"; var_dump($db_message); echo"</pre>";
-echo "<pre>"; var_dump($_POST); echo"</pre>";
-
 // メッセージ編集処理
 if(!empty($_POST)) {
-    // 返信するフラグあればメッセージidを入れる
-    
-    // ====================================================
-    // 削除処理
-    // ====================================================
+     
     try {
         $dbh = dbConnect();
         $sql = 'UPDATE message SET delete_flg = 1 WHERE id = :message_id';
@@ -29,7 +20,7 @@ if(!empty($_POST)) {
         $result = $stmt->execute($data);
         echo "<pre>"; var_dump($result); echo"</pre>";
         header("Location: bord.php");
-    } catch (Exception $e) {
+    } catch (PDOException $e) {
         echo '例外エラー発生 : ' . $e->getMessage();
         $err_msg['etc'] = 'しばらくしてから再度試してください';
     }
