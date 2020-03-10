@@ -1,11 +1,16 @@
  <?php
+// ============
+// 設定
+// ============
 ini_set('display_errors', 1);
 
 // セッション
 session_start();
 $sessionLimit = 60 * 60;
 
-// DB接続
+// ==============
+// DBデータ取得
+// ==============
 function dbConnect() {
     $dsn = 'mysql:dbname=mybbs;host=localhost;charset=utf8';
     $user = 'root';
@@ -29,7 +34,6 @@ function getDbUser($user_id) {
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-// みんなのメッセージ情報取得
 // 引数①取得開始位置, 引数②取得個数
 function getUsersMessage($start, $count) {
     try {
@@ -64,6 +68,26 @@ function getOneMessage($message_id) {
 }
 
 
+function getSearchMessage($start, $count) {
+    try {
+        $dbh = dbConnect();
+        $sql = 'SELECT users.user_name, users.thumbnail, message.id, message.user_id, message.message, message.upload_img, message.create_date FROM message JOIN users ON message.user_id = users.id WHERE message LIKE CONCAT("%", :keyword, "%") AND users.delete_flg = 0 AND message.delete_flg = 0 ORDER BY message.create_date DESC LIMIT :start, :count';
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindValue(':start', $start, PDO::PARAM_INT);
+        $stmt->bindValue(':count', $count, PDO::PARAM_INT);
+        $stmt->bindValue(':keyword', $_GET['search'], PDO::PARAM_STR);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        echo '例外エラー発生 : ' . $e->getMessage();
+        $err_msg['etc'] = 'しばらくしてから再度試してください';
+    }
+    return $result;
+}
+
+// ===============
+// Utility
+// ===============
 
 // サニタイズ
 function h($str){

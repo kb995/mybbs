@@ -92,10 +92,18 @@ if(!empty($_POST)) {
         </div>
     </form>
 
+    <!-- 検索フォーム -->
+    <form class="bg-light col-7 mx-auto my-5 p-5 center" action="search.php" method="get">
+    <div class="form-group mb-5 row">
+        <input class="form-control col-9" type="text" name="search">
+        <input class="btn-info col-2" type="submit" value="検索">
+    </div>
+    </form>
+
     <!-- メッセージ表示領域 -->
     <section style="width:70%; min-height: 1000px;" class="mx-auto my-5 p-5 bg-light">
         <?php foreach($messages as $data): ?>
-            <div style="overflow:hidden; width: 150px; height: 150px; background-color: white;">
+            <div style="overflow:hidden; width: 100px; height: 100px; background-color: white;">
                 <?php if(!empty($data['thumbnail'])): ?>
                     <a href="profDetail.php?user_id=<?php echo $data['user_id']; ?>">
                         <img class="block" style="width: 100%; height:auto;" src="<?php echo 'img/' . $data['thumbnail']; ?>" alt="あなたのプロフィール画像">
