@@ -9,7 +9,6 @@ $default_img = 'default.jpeg';
 
 // データベースのメッセージデータ
 $db_message = getOneMessage($_GET['message_id']);
-// echo "<pre>"; var_dump($db_message); echo"</pre>";
 
 // メッセージ編集処理
 if(!empty($_POST)) {
@@ -27,7 +26,7 @@ if(!empty($_POST)) {
             $stmt = $dbh->prepare($sql);
             $result = $stmt->execute($data);
             header("Location: bord.php");
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
             echo '例外エラー発生 : ' . $e->getMessage();
             $err_msg['etc'] = 'しばらくしてから再度試してください';
         }

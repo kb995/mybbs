@@ -51,12 +51,12 @@ function getUsersMessage($start, $count) {
 function getOneMessage($message_id) {
     try {
         $dbh = dbConnect();
-        $sql = 'SELECT users.user_name, users.thumbnail, message.id, message.message, message.create_date FROM message JOIN users ON message.user_id = users.id WHERE message.id = :message_id AND delete_flg = 0';
+        $sql = 'SELECT users.user_name, users.thumbnail, message.id, message.message, message.create_date FROM message JOIN users ON message.user_id = users.id WHERE message.id = :message_id';
         $data = array(':message_id' => $message_id);
         $stmt = $dbh->prepare($sql);
         $stmt->execute($data);
         $message = $stmt->fetch(PDO::FETCH_ASSOC);
-    } catch (Exception $e) {
+    } catch (PDOException $e) {
         echo '例外エラー発生 : ' . $e->getMessage();
         $err_msg['etc'] = 'しばらくしてから再度試してください';
     }

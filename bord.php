@@ -74,11 +74,13 @@ if(!empty($_POST)) {
     </form>
 
     <!-- メッセージ表示領域 -->
-    <section style="width:70%; min-height: 1000px; background-color: lightgreen;" class="mx-auto my-5 p-5">
+    <section style="width:70%; min-height: 1000px;" class="mx-auto my-5 p-5">
         <?php foreach($messages as $message): ?>
             <div style="overflow:hidden; width: 150px; height: 150px; background-color: white;">
                 <?php if(!empty($message['thumbnail'])): ?>
-                    <img class="block" style="width: 100%; height:auto;" src="<?php echo 'img/' . $message['thumbnail']; ?>" alt="あなたのプロフィール画像">
+                    <a href="profDetail.php?user_id=<?php echo $message['user_id']; ?>">
+                        <img class="block" style="width: 100%; height:auto;" src="<?php echo 'img/' . $message['thumbnail']; ?>" alt="あなたのプロフィール画像">
+                    </a>
                 <?php else: ?>
                     <img style="width:100px;height:100px;" src="<?php echo 'img/' . $default_img; ?>" alt="デフォルト画像">
                 <?php endif; ?>
@@ -90,6 +92,7 @@ if(!empty($_POST)) {
                 <a href="editMessage.php?message_id=<?php echo $message['id']; ?>" class="pr-3">編集</a>
             <?php endif; ?>
             <p class="mb-5 mt-3 p-3" style="border-radius: 8px; background-color: #f1f1f1; color: #555;"><?php echo $message['message']; ?></p>
+
         <?php endforeach; ?>
         <!-- ページング -->
         <?php if($page >= 2): ?>
