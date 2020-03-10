@@ -34,7 +34,7 @@ function getDbUser($user_id) {
 function getUsersMessage($start, $count) {
     try {
         $dbh = dbConnect();
-        $sql = 'SELECT users.user_name, users.thumbnail, message.id, message.user_id, message.message, message.create_date FROM message JOIN users ON message.user_id = users.id WHERE users.delete_flg = 0 AND message.delete_flg = 0 ORDER BY message.create_date DESC LIMIT :start, :count';
+        $sql = 'SELECT users.user_name, users.thumbnail, message.id, message.user_id, message.message, message.upload_img, message.create_date FROM message JOIN users ON message.user_id = users.id WHERE users.delete_flg = 0 AND message.delete_flg = 0 ORDER BY message.create_date DESC LIMIT :start, :count';
         $stmt = $dbh->prepare($sql);
         $stmt->bindValue(':start', $start, PDO::PARAM_INT);
         $stmt->bindValue(':count', $count, PDO::PARAM_INT);

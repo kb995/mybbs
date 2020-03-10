@@ -39,6 +39,7 @@ function validationMin($str, $key, $min = 6) {
 function validationImgType($img, $key) {
     if(!empty($img)) {
         $ext = substr($img, -3);
+        echo "<pre>"; var_dump($ext); echo"</pre>";
         if($ext != 'jpg' && $ext != 'peg' && $ext != 'png' && $ext != 'gif') {
             global $err_msg;
             $err_msg[$key] = '画像は「jpg」「jpeg」「png」「gif」の形式のみ使用できます';
