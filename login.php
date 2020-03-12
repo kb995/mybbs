@@ -50,9 +50,9 @@ if(!empty($_POST)) {
 <?php require('head.php'); ?>
 <?php require('header.php'); ?>
     <!-- main -->
-    <main class="container mt-5">
-        <h1 class="page-title text-center my-5 col-8 mx-auto pb-3">ログイン</h1>
-        <form class="bg-light col-7 mx-auto my-5 p-5" action="" method="post">
+    <main class="container">
+        <h1 class="page-title">ログイン</h1>
+        <form class="form" action="" method="post">
             <div class="form-group">
                 <label class="control-label" for="">メールドレス</label>
                 <input class="form-control" type="email" name="email" value="<?php if(!empty($_POST['email'])) echo h($_POST['email']); ?>">
@@ -71,7 +71,7 @@ if(!empty($_POST)) {
                 <?php if(!empty($err_msg['etc'])) echo $err_msg['etc'];  ?>
             </p>
             <div class="text-right">
-                <input type="submit" class="btn btn-primary my-5 mr-auto" value="ログインする">
+                <input type="submit" class="button" value="ログイン">
             </div>
         </form>
     </main>

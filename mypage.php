@@ -11,26 +11,26 @@ $default_img = 'default.jpeg';
 <?php require('head.php'); ?>
 <?php require('header.php'); ?>
 
-<main class="container mt-5">
-    <h1 class="page-title text-center my-5 col-8 mx-auto pb-3">マイページ</h1>
-    <section class="profile p-5 mb-5">
-        <div class="media bg-light rounded row">
-            <?php if(!empty($db_user['thumbnail'])): ?>
-                <img class="m-5 col-3 bg-white rounded" src="<?php echo 'img/' . $db_user['thumbnail']; ?>" alt="あなたのプロフィール画像">
-            <?php else: ?>
-                <img style="width:150px; height:150px;margin-top: 20px;" src="<?php echo 'img/' . $default_img; ?>" alt="デフォルト画像">
-            <?php endif; ?>
-            <div class="col-9 media-body">
-                <h2 class="mb-3 pt-5"><?php echo $db_user['user_name']; ?></h2>
-                <p class="h5 pb-5"><?php echo $db_user['profile_text']; ?></p>
+<main class="container mypage">
+    <h1 class="page-title">マイページ</h1>
+        <div class="bg-light prof">
+            <p class="prof-img">
+                <?php if(!empty($db_user['thumbnail'])): ?>
+                    <img src="<?php echo 'img/' . $db_user['thumbnail']; ?>" alt="あなたのプロフィール画像">
+                <?php else: ?>
+                    <img src="<?php echo 'img/' . $default_img; ?>" alt="デフォルト画像">
+                <?php endif; ?>
+            </p>
+            <h2 class="prof-name"><?php echo $db_user['user_name']; ?></h2>
+            <p class="prof-text"><?php echo $db_user['profile_text']; ?></p>
+            <div class="prof-btn">
+                <a class="button" href="bord.php">みんなのひとりごと板</a>
+                <a class="button" href="profEdit.php">プロフィール編集</a>
             </div>
+            <p class="withdraw" >
+                <a href="withdraw.php">退会する&raquo;</a>
+            </p>
         </div>
-        <div class="row">
-            <a class="btn btn-primary block m-3" href="profEdit.php">プロフィール編集</a>
-            <a class="btn btn-primary block m-3" href="bord.php">みんなのひとりごと板</a>
-            <a class="block ml-auto p-4" href="withdraw.php">退会する&raquo;</a>
-        </div>
-    </section>
 </main>
 
 <?php require('footer.php'); ?>

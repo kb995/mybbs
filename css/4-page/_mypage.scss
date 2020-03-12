@@ -1,0 +1,40 @@
+
+.container.mypage {
+    width: 60%;
+}
+.prof {
+    margin-bottom: 50px;
+    padding: 30px;
+    &-img {
+        width: 20%;
+        height: 20%;
+        padding: 10px;
+        margin: 30px;
+    }
+    &-name {
+        font-size: 23px;
+        font-weight: bold;
+        padding: 10px 20px;
+    }
+    &-text {
+        font-size: 18px;
+        padding: 20px;
+        line-height: 1.2;
+        margin-bottom: 30px;
+    }
+    &-btn {
+        .button {
+            margin: 10px;
+            color: #fff;
+        }
+    }
+    .withdraw {
+        text-align: right;
+        a {
+            color: skyblue;
+        };
+        & a:hover {
+            color: red;
+        }
+    }
+}

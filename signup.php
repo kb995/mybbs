@@ -44,25 +44,25 @@ if(!empty($_POST)) {
 
 <?php require('head.php'); ?>
 <?php require('header.php'); ?>
-    <main class="container mt-5">
-        <h1 class="page-title text-center my-5 col-8 mx-auto pb-3">新規登録</h1>
-        <form class="bg-light col-7 mx-auto p-5" action="" method="post">
+    <main class="container">
+        <h1 class="page-title">新規登録</h1>
+        <form class="form" action="" method="post">
             <div class="form-group">
-                <label class="control-label" for="">メールアドレス<span class="badge badge-danger ml-2">必須</span></label>
+                <label class="control-label" for="">メールアドレス<span class="badge badge-danger ml-4">必須</span></label>
                 <input class="form-control" type="email" name="email" value="<?php if(!empty($_POST['email'])) echo h($_POST['email']); ?>">
                 <p class="err_msg">
                     <?php if(!empty($err_msg['email'])) echo $err_msg['email'];  ?>
                 </p>
             </div>
             <div class="form-group">
-                <label class="control-label" for="">パスワード<span class="badge badge-danger ml-2">必須</span></label>
+                <label class="control-label" for="">パスワード<span class="badge badge-danger ml-4">必須</span></label>
                 <input class="form-control" type="password" name="password" value="<?php if(!empty($_POST['password'])) echo h($_POST['password']); ?>">
                 <p class="err_msg">
                     <?php if(!empty($err_msg['password'])) echo $err_msg['password'];  ?>
                 </p>
             </div>
             <div class="form-group">
-                <label class="control-label" for="">パスワード(再)<span class="badge badge-danger ml-2">必須</span></label>
+                <label class="control-label" for="">パスワード(再)<span class="badge badge-danger ml-4">必須</span></label>
                 <input class="form-control" type="password" name="password_re" value="<?php if(!empty($_POST['password_re'])) echo h($_POST['password_re']); ?>">
                 <p class="err_msg">
                     <?php if(!empty($err_msg['password_re'])) echo $err_msg['password_re'];  ?>
@@ -71,8 +71,8 @@ if(!empty($_POST)) {
                     <?php if(!empty($err_msg['etc'])) echo $err_msg['etc'];  ?>
                 </p>
             </div>
-            <div class="text-right my-5">
-                <input type="submit" class="btn btn-primary mr-auto" value="登録する">
+            <div class="text-right">
+                <input class="button" type="submit" value="新規登録">
             </div>
         </form>
     </main>
