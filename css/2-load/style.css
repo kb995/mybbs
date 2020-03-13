@@ -182,6 +182,11 @@ img {
   opacity: .8;
 }
 
+.input-file {
+  height: 60px;
+  margin: 50px 0;
+}
+
 .container.mypage {
   width: 60%;
 }
@@ -189,6 +194,8 @@ img {
 .prof {
   margin-bottom: 50px;
   padding: 30px;
+  -webkit-box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
 }
 
 .prof-img {
@@ -226,5 +233,33 @@ img {
 
 .prof .withdraw a:hover {
   color: red;
+}
+
+.check-text {
+  font-size: 17px;
+  padding: 20px 10px;
+  line-height: 1.4;
+  font-weight: bold;
+}
+
+.check-text-top {
+  font-size: 18px;
+  padding: 50px 0;
+}
+
+.check-img {
+  width: 30%;
+  height: 30%;
+  margin-bottom: 30px;
+}
+
+.back-link {
+  font-size: 12px;
+  display: inline-block;
+  margin-top: 30px;
+}
+
+.back-link:hover {
+  color: skyblue;
 }
 /*# sourceMappingURL=style.css.map */

@@ -26,15 +26,15 @@ if(!empty($_POST)) {
 <?php require('head.php'); ?>
 <?php require('header.php'); ?>
 
-<main class="container mt-5">
-    <h1 class="page-title text-center my-5 col-8 mx-auto pb-3">退会ページ</h1>
-    <section class="profile p-5 mb-5">
-        <h4 class="text-center pb-1">本当に退会しますか?</h4>
-        <form class="bg-light col-7 mx-auto p-5 text-center" action="" method="post" enctype="multipart/form-data">
-        <input class="btn-lg btn-outline-secondary block m-3" type="submit" name="withdraw" value="退会する">
-    </form>
-    <a class="btn btn-link" href="mypage.php">&lt;戻る</a>
-    </section>
+<main class="container">
+    <h1 class="page-title">退会ページ</h1>
+        <form class="form text-center my-3" action="" method="post">
+            <label class="control-label my-3" for="">本当に退会しますか?</label>
+            <div class="text-center">
+                <input class="btn-lg btn-danger" type="submit" name="withdraw" value="退会する">
+            </div>
+        </form>
+        <a class="back" href="mypage.php">&lt;戻る</a>
 </main>
 
 <?php require('footer.php'); ?>

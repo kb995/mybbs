@@ -60,35 +60,36 @@ if(!empty($_POST)) {
 <?php require('head.php'); ?>
 <?php require('header.php'); ?>
 
-<main class="container mt-5">
+<main class="container">
     <!-- メッセージフォーム -->
-    <h1 class="page-title text-center my-5 col-8 mx-auto pb-3">みんなのひとりごと</h1>
-    <form class="bg-light col-7 mx-auto p-5" action="" method="post" enctype="multipart/form-data">
-        <div class="bg-light rounded">
-            <p class="pl-5 h5 block"><?php echo $db_user['user_name']; ?></p>
+    <h1 class="page-title">みんなのひとりごと</h1>
+    <form class="form" action="" method="post" enctype="multipart/form-data">
+    <!-- --------------- bordのスタイルシート ------------------ -->
+        <p class="bg-light rounded">
+            <p><?php echo $db_user['user_name']; ?></p>
             <?php if(!empty($db_user['thumbnail'])): ?>
-                <img style="width:150px;height:100px" class="m-2 mb-5 bg-white rounded block" src="<?php echo 'img/' . $db_user['thumbnail']; ?>" alt="あなたのプロフィール画像">
+                <img src="<?php echo 'img/' . $db_user['thumbnail']; ?>" alt="あなたのプロフィール画像">
             <?php else: ?>
-                <img style="width:150px; height:150px;margin-top: 20px;" src="<?php echo 'img/' . $default_img; ?>" alt="デフォルト画像">
+                <img src="<?php echo 'img/' . $default_img; ?>" alt="デフォルト画像">
             <?php endif; ?>
-        </div>
+        </p>
         <div class="form-group mb-5">
-            <label class="control-label h4 pb-2" for="">ひとりごとをつぶやく</label>
+            <label class="control-label" for="">ひとりごとをつぶやく</label>
             <textarea class="form-control" name="message" rows="8" cols="40"><?php if(!empty($_POST['message'])) echo $_POST['message']; ?></textarea>
             <p class="err_msg">
                 <?php if(!empty($err_msg['message'])) echo $err_msg['message'];  ?>
             </p>
         </div>
         <!-- 画像アップロード -->
-        <div class="form-group mb-5">
-            <label class="w-100 control-label" for="">画像の添付</label>
+        <div class="form-group">
+            <label class="control-label" for="">画像の添付</label>
             <input class="form-control" type="file" name="upload">
             <p class="err_msg">
                 <?php if(!empty($err_msg['image'])) echo $err_msg['image'];  ?>
             </p>
         </div>
         <div class="text-center">
-            <input type="submit" class="btn-block w-20 btn-primary my-5 p-2  mr-auto" value="投稿する">
+            <input type="submit" class="button" value="投稿する">
         </div>
     </form>
 

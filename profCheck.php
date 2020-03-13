@@ -34,31 +34,32 @@ if(!empty($_SESSION['profedit'])) {
 <?php require('head.php'); ?>
 <?php require('header.php'); ?>
 
-<main class="container mt-5">
-    <h1 class="page-title text-center my-5 col-8 mx-auto pb-3">入力確認画面</h1>
-    <section class="profile p-5 mb-5">
-        <h4 class="text-center pb-5">記入した内容を確認して、「登録する」をクリックして下さい</h4>
-        <form class="bg-light col-7 mx-auto p-5" action="" method="post" enctype="multipart/form-data">
-            <h4>プロフィール画像</h4>
-            <?php if(!empty($img)): ?>
-                <img style="width:250px; height:150px;margin-top: 20px;" src="<?php echo 'img/' . $img; ?>" alt="プロフィール画像">
-            <?php elseif(!empty($db_user['thumbnail'])): ?>
-                <img class="width:250px; height:150px;margin-top: 20px;" src="<?php echo 'img/' . $db_user['thumbnail']; ?>" alt="プロフィール画像">
-            <?php else: ?>
-                <img style="width:150px; height:150px;margin-top: 20px;" src="<?php echo 'img/' . $default_img; ?>" alt="デフォルト画像">
-            <?php endif; ?>
-            <h4 class="p-3 pt-5">ニックネーム : <?php echo h($_SESSION['profedit']['name']); ?></h4>
-            <h4 class="p-3">メールアドレス : <?php echo h($_SESSION['profedit']['email']); ?></h4>
-            <h4 class="p-3">パスワード : 【表示されません】</h4>
-            <h4 class="p-3">プロフィール文 : </h4>
-            <h4 class="p-2">
+<main class="container prof">
+    <h1 class="page-title">入力確認画面</h1>
+    <form class="bg-light form" action="" method="post" enctype="multipart/form-data">
+    <p class="text-center check-text-top">【 記入した内容を確認して、「更新する」をクリックして下さい 】</p>
+            <p class="check-text">プロフィール画像</p>
+            <p class="check-img">
+                <?php if(!empty($img)): ?>
+                    <img src="<?php echo 'img/' . $img; ?>" alt="プロフィール画像">
+                <?php elseif(!empty($db_user['thumbnail'])): ?>
+                    <img src="<?php echo 'img/' . $db_user['thumbnail']; ?>" alt="プロフィール画像">
+                <?php else: ?>
+                    <img src="<?php echo 'img/' . $default_img; ?>" alt="デフォルト画像">
+                <?php endif; ?>
+            </p>
+            <p class="check-text">ニックネーム : <?php echo h($_SESSION['profedit']['name']); ?></p>
+            <p class="check-text">メールアドレス : <?php echo h($_SESSION['profedit']['email']); ?></p>
+            <p class="check-text">パスワード : 【表示されません】</p>
+            <p class="check-text">プロフィール文 : 
                 <?php echo h($_SESSION['profedit']['profile']); ?>
-            </h4>
-            <a class="btn btn-link" href="profEdit.php">&lt;戻る</a>
-            <input type="submit" name="submit" class="btn-block w-20 btn-primary my-5 p-2" value="この内容で保存する">
-            <input type="hidden" name="submit">
+            </p>
+            <a class="text-left back-link" href="profEdit.php">&lt;戻る</a>
+            <div class="text-right">
+                <input type="submit" name="submit" class="button" value="更新する">
+                <input type="hidden" name="submit">
+            </div>
         </form>
-    </section>
 </main>
 
 <?php require('footer.php'); ?>
