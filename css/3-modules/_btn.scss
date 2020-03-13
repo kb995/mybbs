@@ -10,8 +10,19 @@
     &:hover {
         opacity: .8;
     }
+    &-post {
+        width: 40%;
+        background-color: limegreen;
+        margin-top: 50px;
+    }
+    &-search {
+        font-size: 19px;
+        height: 36px;
+        background-color: skyblue;
+        color: #fff;
+        border: none;
+    }
 }
 .input-file {
     height: 60px;
-    margin: 50px 0;
 }

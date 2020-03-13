@@ -165,6 +165,11 @@ img {
   margin-bottom: 20px;
 }
 
+.search-form {
+  width: 80%;
+  margin: 0 auto;
+}
+
 .button {
   font-size: 18px;
   color: #fff;
@@ -182,9 +187,22 @@ img {
   opacity: .8;
 }
 
+.button-post {
+  width: 40%;
+  background-color: limegreen;
+  margin-top: 50px;
+}
+
+.button-search {
+  font-size: 19px;
+  height: 36px;
+  background-color: skyblue;
+  color: #fff;
+  border: none;
+}
+
 .input-file {
   height: 60px;
-  margin: 50px 0;
 }
 
 .container.mypage {
@@ -261,5 +279,88 @@ img {
 
 .back-link:hover {
   color: skyblue;
+}
+
+.bord-name {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 15px 5px;
+}
+
+.bord-img {
+  width: 100px;
+  height: 100px;
+  margin: 10px 0;
+  background: #f1f1f1;
+}
+
+.text-label {
+  margin: 20px 0;
+}
+
+.bord {
+  width: 70%;
+  margin: 100px auto;
+  padding: 50px;
+  background-color: #fff;
+  -webkit-box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+}
+
+.bord-thumbnail {
+  width: 100px;
+  height: 100px;
+  background-color: #fff;
+  overflow: hidden;
+}
+
+.bord-thumbnail img {
+  max-width: 100%;
+}
+
+.bord .username {
+  font-size: 18px;
+  margin: 10px;
+}
+
+.bord .message-info {
+  color: #777;
+  font-size: 15px;
+  margin: 10px;
+}
+
+.bord .edit-link {
+  color: skyblue;
+  padding-left: 10px;
+  padding-right: 5px;
+}
+
+.bord .delete-link {
+  color: red;
+}
+
+.bord .message-content {
+  margin: 30px 0;
+  padding: 30px;
+  background-color: limegreen;
+  border-radius: 7px;
+  line-height: 1.3;
+  letter-spacing: .3px;
+  display: inline-block;
+}
+
+.bord .message-content .message-text {
+  font-size: 18px;
+}
+
+.bord .message-content .upload-img {
+  width: 200px;
+  height: auto;
+  display: block;
+}
+
+.bord .paging {
+  color: skyblue;
+  font-size: 16px;
 }
 /*# sourceMappingURL=style.css.map */
